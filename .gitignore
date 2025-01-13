@@ -1,0 +1,19 @@
+
+
+# Ignore environment variables file
+.env
+.env.*
+
+
+# Ignore test coverage reports
+/coverage
+
+# Ignore IDE and editor folders/files
+/.idea/
+
+# Ignore node modules
+/node_modules
+
+# Ignore node_modules anywhere
+**/node_modules
+
