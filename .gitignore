@@ -16,4 +16,5 @@
 
 # Ignore node_modules anywhere
 **/node_modules
-
+# Ignore certificate files
+*.pem

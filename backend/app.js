@@ -31,7 +31,8 @@ app.use(cors({
     methods: ['GET', 'POST', 'PATCH', 'DELETE'] // Allowed HTTP methods
 }));
 
-// Centralized Error Handling Middleware
+
+
 // Catches all errors and returns a consistent JSON response
 app.use((err, req, res, next) => {
     console.error(err.stack); // Log the error stack trace (avoid logging sensitive data here)

@@ -1,13 +1,14 @@
-const app = require("./app");
-const db = require("./src/confige/db");
+const app = require("./app"); 
+const dbConnection = require("./src/config/db");
 
-// Initialize the database and start the server
-db.connect()
-    .then(() => {
-        app.listen(process.env.PORT, () => {
-            console.log(`Server listening on port ${process.env.PORT}`);
-        });
-    })
-    .catch((err) => {
-        console.error("Database connection error:", err);
+
+// Check if the database connected successfully
+dbConnection.on("connected", () => {
+    app.listen(process.env.PORT, () => {
+        console.log(`Server listening on port ${process.env.PORT}`);
     });
+});
+
+dbConnection.on("error", (err) => {
+    console.error("Database connection error:", err);
+});
