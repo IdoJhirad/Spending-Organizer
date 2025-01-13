@@ -2,7 +2,7 @@
 
 # Ignore environment variables file
 .env
-.env.*
+*.env
 
 
 # Ignore test coverage reports
