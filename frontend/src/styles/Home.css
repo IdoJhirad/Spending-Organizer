@@ -1,0 +1,52 @@
+/* Home Page Styles */
+
+.home-container {
+    display: flex;
+    flex-direction: row; /* Align content in a row */
+    justify-content: space-between;
+    align-items: center;
+    padding: 150px 50px; /* Added padding to account for the larger header */
+    background-color: var(--color-background);
+    min-height: calc(100vh - 80px); /* Adjust for header height */
+  }
+  
+  .home-text {
+    flex: 1;
+    margin-right:35px; /* Switch to margin-right since text is on the left */
+    text-align: left;
+  }
+  
+  .home-text h1 {
+    font-weight: bold;
+    font-size: 2.5rem;
+    margin-bottom: var(--spacing-medium);
+  }
+  
+  .home-text p {
+    margin-bottom: var(--spacing-medium);
+    font-size: 1.2rem;
+    color: var(--color-text);
+  }
+  
+  .button-group {
+    display: flex;
+    justify-content: flex-start;
+    gap: var(--spacing-large);
+  }
+  
+  .home-image {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+  }
+  
+  .image-placeholder {
+    width: 700px; /* Increased size */
+    height: 700px;
+    background-color: #d9d9d9;
+    border: 2px dashed #aaa;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  

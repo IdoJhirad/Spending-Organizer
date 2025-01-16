@@ -1,10 +1,13 @@
-require('dotenv').config(); // Load environment variables from .env file
-const express = require('express');
-const cors = require("cors");
-const cookieParser = require("cookie-parser");
-const helmet = require("helmet"); // For security-related HTTP headers
-const rateLimit = require("express-rate-limit"); // For rate limiting requests
+import dotenv from "dotenv";
+dotenv.config(); // Load environment variables from .env file
 
+import express from "express";
+import cors from "cors";
+import cookieParser from "cookie-parser";
+import helmet from "helmet"; // For security-related HTTP headers
+import rateLimit from "express-rate-limit"; // For rate limiting requests
+import('./src/middleware/googleAuth.js')
+import v1Routing from "./src/v1Routing/v1Routing.js"; // Import v1Routing
 const app = express();
 
 // Middleware to parse JSON requests
@@ -31,6 +34,7 @@ app.use(cors({
     methods: ['GET', 'POST', 'PATCH', 'DELETE'] // Allowed HTTP methods
 }));
 
+app.use("/api/v1", v1Routing);
 
 
 // Catches all errors and returns a consistent JSON response
@@ -40,4 +44,4 @@ app.use((err, req, res, next) => {
 });
 
 
-module.exports = app;
+export default app;

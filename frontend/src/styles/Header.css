@@ -1,0 +1,23 @@
+/* Header Styles */
+
+.header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 40px;
+    background-color: var(--color-primary); /* Light Blue */
+    color: #ffffff;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    height: 80px;
+  }
+  
+  .header-title {
+    font-weight: bold;
+    font-size: 2rem;
+    margin: 0;
+  }
+  

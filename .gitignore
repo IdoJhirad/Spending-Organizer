@@ -18,3 +18,5 @@
 **/node_modules
 # Ignore certificate files
 *.pem
+
+postgres
