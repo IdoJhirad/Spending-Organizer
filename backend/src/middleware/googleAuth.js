@@ -35,8 +35,8 @@ passport.use(
         } else {
           // Create a new user if they don't exist
           const newUserResult = await db.query(
-            `INSERT INTO users (google_id, email, name, is_verified) VALUES ($1, $2, $3, $4) RETURNING *`,
-            [googleId, email, name, true] // Automatically verify Google users
+            `INSERT INTO users (google_id, email, name, password, is_verified) VALUES ($1, $2, $3, $4, $5) RETURNING *`,
+            [googleId, email, name, 'GOOGLE_AUTH_USER', true] // Automatically verify Google users
           );
           user = newUserResult.rows[0];
         }

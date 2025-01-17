@@ -12,7 +12,7 @@ import passport from 'passport';
     // initiat google login and redirect to google
     .get('/google', passport.authenticate('google', { scope: ['profile', 'email'] }))
     .get('/google/callback',
-        passport.authenticate('google', { failureRedirect: '/login' }), 
+        passport.authenticate('google', { failureRedirect: '/login' ,session: false}), 
         googleAuthCallback
     )
 export default router;

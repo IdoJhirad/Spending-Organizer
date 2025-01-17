@@ -79,6 +79,7 @@ export const verifyEmail = async (req, res) => {
 
 
 export const login = async (req, res) => {
+    console.log("inside login handler");
     const {email, password} = req.body;
     if(!email || !password) {
         return res.status(400).json({ message: "Missing required fileds." });
@@ -106,6 +107,8 @@ export const login = async (req, res) => {
                 });
             } 
         }
+        console.log('User is  verified');
+
         //generate token 
         const token = generateToken(sanitizedUser);
         //add token for header

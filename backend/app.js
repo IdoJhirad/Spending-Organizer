@@ -9,7 +9,7 @@ import rateLimit from "express-rate-limit"; // For rate limiting requests
 import('./src/middleware/googleAuth.js')
 import v1Routing from "./src/v1Routing/v1Routing.js"; // Import v1Routing
 const app = express();
-
+console.log(process.env.ORIGIN); 
 // Middleware to parse JSON requests
 app.use(express.json());
 // Middleware to parse cookies
@@ -30,7 +30,7 @@ app.use(limiter);
 app.use(cors({
     origin: process.env.ORIGIN, // Allowed origin set in .env
     credentials: true, // Allow cookies
-    exposedHeaders: ['X-Total-Count'], // Headers that can be accessed by the client
+    exposedHeaders: ['X-Total-Count', 'Authorization'], // Headers that can be accessed by the client
     methods: ['GET', 'POST', 'PATCH', 'DELETE'] // Allowed HTTP methods
 }));
 

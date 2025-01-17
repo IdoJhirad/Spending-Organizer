@@ -1,7 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import CustomButton from "../components/ReusableButton";
 import "../styles/Header.css";
+import { Button } from "@mui/material";
 
 const Header = () => {
   const navigate = useNavigate();
@@ -9,12 +9,12 @@ const Header = () => {
   return (
     <header className="header-container">
       <h1 className="header-title">Spending Organizer</h1>
-      <CustomButton
+      <Button
         text="Login"
         variant="contained"
         color="secondary" 
         onClick={() => navigate("/login")}
-      />
+      >Login</Button>
     </header>
   );
 };

@@ -1,0 +1,33 @@
+/* Dynamic Form Styles */
+.dynamic-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    background-color: #ffffff; /* White background */
+    max-width: 450px;
+    width: 100%;
+}
+
+.dynamic-form-title {
+    color: var(--color-primary); /* Use your theme color */
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.dynamic-form-button {
+    margin-top: 20px;
+    background-color: var(--color-primary); /* Primary color */
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 10px;
+    width: 100%;
+}
+
+.dynamic-form-button:hover {
+    background-color: var(--color-secondary); /* Secondary color on hover */
+}
