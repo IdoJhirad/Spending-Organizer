@@ -1,0 +1,12 @@
+{
+  "Version": 1,
+  "Hash": "5ba3EIeopGe/cQ1FWFZ7s9m7dK2tmLGy5nA3yBsRD9w=",
+  "Source": "c#_api",
+  "BasePath": "_content/c#_api",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": [],
+  "Endpoints": []
+}
