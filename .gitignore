@@ -20,3 +20,5 @@
 *.pem
 
 postgres
+/c#_api/.vs
+/c#_api/bin/Debug/net8.0
