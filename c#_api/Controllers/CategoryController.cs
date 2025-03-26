@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Update.Internal;
 using Microsoft.OpenApi.Validations;
 
 namespace c__api.Controllers
@@ -28,61 +29,88 @@ namespace c__api.Controllers
             _expenseRepository = expenseRepository;
         }
 
-        [HttpGet("default")]
-        public async Task<IActionResult> GetDefaultCategory()
-        {
-            var categories = await _categoryRepo.GetAllDefaultCategoriesAsync();
-            var categoriesDto = categories.Select(c=>c.CategoryModelToDto()).ToList();
-            return Ok(categoriesDto);
-        }
-
         [HttpGet]
-        public async Task<IActionResult> GetUserCategories()
+        public async Task<IActionResult> GetUserCategories ()
         {
-            var appUser = await User.GetAppUserAsync(_userManager);
+            var appUser = HttpContext.Items["User"] as AppUser;
+
             if (appUser == null)
             {
                 return BadRequest("User Doesnt exsist");
             }
-            var categories = await _categoryRepo.GetDefaultAndUserCategoryAsync(appUser);
-            var categoryDtos = categories.Select(c => c.CategoryModelToDto()).ToList();
 
-            return Ok(categoryDtos);
+            var categories = await _categoryRepo.GetUserCategoriesAsync(appUser);
+
+            var categoriesDto = categories.Select(c => c.CategoryModelToDto()).ToList();
+
+            return Ok(categoriesDto);
+        }
+        [HttpGet("{id:int}")]
+        public async Task<IActionResult> GetUserCategoryById(int id)
+        {
+            var appUser = HttpContext.Items["User"] as AppUser;
+
+            if (appUser == null)
+            {
+                return BadRequest("User Doesnt exsist");
+            }
+            var catrgory = await _categoryRepo.GetUserCategoryByIdAsync(id, appUser);
+            if(catrgory == null)
+            {
+                return NotFound("category not found.");
+            }
+            return Ok(catrgory.CategoryModelToDto());
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateUserCAtegory([FromBody] CreateCategoryDto categoryDto)
+        public async Task<IActionResult> CreateUserCategory([FromBody] CreateCategoryDto categoryDto)
         {
-            var appUser = await User.GetAppUserAsync(_userManager);
+            var appUser = HttpContext.Items["User"] as AppUser;
             if (appUser == null)
             {
                 return BadRequest("User Doesnt exsist");
             }
-            //check if user have category
-            var userCategoty = await _categoryRepo.GetDefaultAndUserCategoryAsync(appUser);
-            if (userCategoty.Any(c => c.CategoryName.ToLower() == categoryDto.CategoryName.ToLower()))
-            {
-                return BadRequest("category already exsist in user categories");
-            }
-            // get or create the category
-            var category = await _categoryRepo.GetCategoryByNameAsync(categoryDto.CategoryName);
-            if (category == null)
-            {
-                category = await _categoryRepo.CreateCategoryAsync(categoryDto.DtoToCategoryModel());
-            }
 
             //create user category
-            var newUserCategory = new UserCategory
-            {
-                AppUserId = appUser.Id,
-                CategoryModelId = category.Id,
-            };
+            var category = categoryDto.DtoToCategoryModel(appUser.Id);
 
-            await _categoryRepo.CreateUserCategoryAsync(newUserCategory);
+            await _categoryRepo.CreateCategoryAsync(category);
 
             return Created();
 
         }
 
+        [HttpDelete("{id:int}")]
+        public async Task<IActionResult> DeleteCategoty(int id)
+        {
+            var appUser = HttpContext.Items["User"] as AppUser;
+            if (appUser == null)
+            {
+                return BadRequest("User Doesnt exsist");
+            }
+            var categoty =  await _categoryRepo.DeleteAsync(id, appUser);
+            if(categoty == null)
+            {
+                return NotFound("Category not found.");
+            }
+            return NoContent();
+        }
+
+        [HttpPut("{id:int}")]
+        public async Task<IActionResult> UpdateCategory(int id, [FromBody] UpdateCategoryDto dto)
+        {
+            var appUser = HttpContext.Items["User"] as AppUser;
+            if (appUser == null)
+            {
+                return BadRequest("User Doesnt exsist");
+            }
+            var category = await _categoryRepo.UpdateCategoryAsync(id, dto, appUser);
+            if (category == null) 
+            {
+                return NotFound("Category not found.");
+            }
+            return Ok(category.CategoryModelToDto());
+           
+        }
     }
 }

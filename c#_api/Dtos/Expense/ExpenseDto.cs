@@ -10,7 +10,7 @@ namespace c__api.Dtos.Expense
         public decimal Amount { get; set; }
         public string Description { get; set; } = string.Empty;
         public DateTime Date { get; set; }
-        public CategoryDto Category { get; set; } = default!;
+        public CategoryDto? Category { get; set; }
 
     }
 }

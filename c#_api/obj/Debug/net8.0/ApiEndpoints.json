@@ -43,7 +43,7 @@
   },
   {
     "ContainingType": "c__api.Controllers.CategoryController",
-    "Method": "CreateUserCAtegory",
+    "Method": "CreateUserCategory",
     "RelativePath": "api/category",
     "HttpMethod": "POST",
     "IsController": true,
@@ -59,12 +59,55 @@
   },
   {
     "ContainingType": "c__api.Controllers.CategoryController",
-    "Method": "GetDefaultCategory",
-    "RelativePath": "api/category/default",
+    "Method": "GetUserCategoryById",
+    "RelativePath": "api/category/{id}",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
-    "Parameters": [],
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "c__api.Controllers.CategoryController",
+    "Method": "DeleteCategoty",
+    "RelativePath": "api/category/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "c__api.Controllers.CategoryController",
+    "Method": "UpdateCategory",
+    "RelativePath": "api/category/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "dto",
+        "Type": "c__api.Dtos.Categories.UpdateCategoryDto",
+        "IsRequired": true
+      }
+    ],
     "ReturnTypes": []
   },
   {

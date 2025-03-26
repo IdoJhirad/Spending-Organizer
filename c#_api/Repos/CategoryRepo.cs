@@ -1,4 +1,5 @@
 ﻿using c__api.Data;
+using c__api.Dtos.Categories;
 using c__api.Interfaces;
 using c__api.Models;
 using Microsoft.EntityFrameworkCore;
@@ -21,52 +22,47 @@ namespace c__api.Repos
             return model;
         }
 
-        public async Task<UserCategory> CreateUserCategoryAsync(UserCategory userCategory)
+
+        public async Task<List<CategoryModel>> GetUserCategoriesAsync(AppUser user)
         {
-            await _context.UserCategories.AddAsync(userCategory);
-            await _context.SaveChangesAsync();  
-            return userCategory;
+            var categories = await _context.Categories.Where(c => c.AppUserId == user.Id).ToListAsync();
+         
+            return categories;
         }
 
-        public async Task<List<CategoryModel>> GetAllDefaultCategoriesAsync()
+        public async Task<CategoryModel?> GetUserCategoryByIdAsync(int id, AppUser appUser)
         {
-            return await _context.Categories.Where(c => c.IsDefault == true).ToListAsync();
+           return await _context.Categories.FirstOrDefaultAsync(c => c.Id == id && c.AppUserId == appUser.Id);
         }
 
-        public async Task<CategoryModel?> GetCategoryByNameAsync(string name )
+        public async Task<bool> IsCategoryExistsAsync(int id, AppUser appUser)
         {
-            return await _context.Categories.FirstOrDefaultAsync(c => c.CategoryName == name);
+            return await _context.Categories.AnyAsync((c => c.Id == id &&  c.AppUserId == appUser.Id));
         }
-
-
-
-        public async Task<List<CategoryModel>> GetDefaultAndUserCategoryAsync(AppUser user)
+        public async Task<CategoryModel?> DeleteAsync(int id, AppUser user)
         {
-            var defaultCategories = await _context.Categories.Where(c => c.IsDefault == true).ToListAsync();
-            var userCategoty = await _context.UserCategories.Where(u => u.AppUserId == user.Id)
-                .Select(category => new CategoryModel
-                {
-                    Id = category.CategoryModelId,
-                    CategoryName = category.CategoryModel.CategoryName,
-                    IsDefault = category.CategoryModel.IsDefault
-                }).ToListAsync();
-
-            var allCategories = defaultCategories.Concat(userCategoty)
-                //remove duplicated
-                .GroupBy(c => c.Id).Select(g => g.First()).ToList();
-            
-            return allCategories;
+            var category = await _context.Categories.FirstOrDefaultAsync(e => e.Id == id && e.AppUserId == user.Id);
+            if (category == null)
+            {
+                return null;
+            }
+            _context.Categories.Remove(category);
+            await _context.SaveChangesAsync();
+            return category;
         }
-
-        public async Task<CategoryModel?> GetDefaultCategoryByIdAsync(int id)
+        public async Task<CategoryModel?> UpdateCategoryAsync(int id, UpdateCategoryDto updateDto, AppUser appUser)
         {
-            return await _context.Categories.FirstOrDefaultAsync(c => c.IsDefault == true && c.Id == id);
-        }
+         
+            var category = await _context.Categories.FirstOrDefaultAsync(c => c.Id == id && c.AppUserId == appUser.Id);
+            if(category == null)
+            {
+                return null;
+            }
+            category.Icon = updateDto.Icon;
+            category.CategoryName = updateDto.CategoryName;
 
-        public async Task<bool> IsCategoryExistsAsync(int id)
-        {
-            return await _context.Categories.AnyAsync((c => c.Id == id &&  c.IsDefault == true));
+            await _context.SaveChangesAsync();
+            return category;
         }
-
     }
 }

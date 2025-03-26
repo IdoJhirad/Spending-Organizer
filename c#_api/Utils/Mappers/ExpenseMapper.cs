@@ -24,7 +24,7 @@ namespace c__api.Utils.Mappers
                 Amount = expense.Amount,
                 Description = expense.Description,
                 Date = expense.Date,
-                Category = expense.Category.CategoryModelToDto()
+                Category = CategoryMapper.CategoryModelToDto(expense.Category),
 
             };
         }

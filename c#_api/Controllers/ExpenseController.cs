@@ -31,21 +31,13 @@ namespace c__api.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAll([FromQuery] QueryObject query)
         {
-            _logger.LogInformation("entered to get all expenss");
             var appUser = HttpContext.Items["User"] as AppUser;
             if (appUser == null)
             {
                 return BadRequest("User Doesnt exsist");
             }
             _logger.LogInformation($"get all exsepensess for user: {appUser.Email}");
-
-
-            //var appUser = await User.GetAppUserAsync(_userManager);
-            //if (appUser == null)
-            //{
-            //    return BadRequest("User Doesnt exsist");
-            //}
-
+     
             //Todo Add filter by CAtegory by dates by type that i will do
             var expense = await _expenseRepo.GetAllExpensesAsync(query, appUser);
               
@@ -58,33 +50,37 @@ namespace c__api.Controllers
         public async Task<IActionResult> GetById([FromRoute] int id)
 
         {
-            var appUser = await User.GetAppUserAsync(_userManager);
+            var appUser = HttpContext.Items["User"] as AppUser;
             if (appUser == null)
             {
                 return BadRequest("User Doesnt exsist");
             }
-            _logger.LogInformation($"post expens for user: {appUser.Email}");
+
+            _logger.LogInformation($"get  expens for user: {appUser.Email}");
             var expense = await _expenseRepo.GetExpenseByIdAsync(id,appUser);
+
             if(expense == null)
             {
                 return NotFound("expense not found");
             }
+
             return Ok(expense.ExpenseToDto());
         }
 
         [HttpPost]
         public async Task<IActionResult> CreateExpense([FromBody] CreateExpenseDto expenseDto)
         {
-            var appUser = await User.GetAppUserAsync(_userManager);
+            var appUser = HttpContext.Items["User"] as AppUser;
             if (appUser == null)
             {
                 return BadRequest("User Doesnt exsist");
             }
-            var categoryExists = await _categoryRepo.IsCategoryExistsAsync(expenseDto.CategoryId);
+
+            var categoryExists = await _categoryRepo.IsCategoryExistsAsync(expenseDto.CategoryId ,appUser);
 
             if (!categoryExists)
             {
-                expenseDto.CategoryId = 1;
+                return BadRequest("Category dont exsist.");
             }
 
             var expense = expenseDto.DtoToExpense(appUser);
@@ -96,17 +92,17 @@ namespace c__api.Controllers
         [HttpPut("{id:int}")]
         public async Task<IActionResult> UpdateExpense([FromRoute] int id, [FromBody] UpdateExpenseDto expenseDto)
         {
-            var appUser = await User.GetAppUserAsync(_userManager);
+            var appUser = HttpContext.Items["User"] as AppUser;
             if (appUser == null)
             {
                 return BadRequest("User Doesnt exsist");
             }
 
-            var categoryExists = await _categoryRepo.IsCategoryExistsAsync(expenseDto.CategoryId);
+            var categoryExists = await _categoryRepo.IsCategoryExistsAsync(expenseDto.CategoryId, appUser);
 
             if (!categoryExists)
             {
-                expenseDto.CategoryId = 1;
+                return BadRequest("Category dont exsist.");
             }
 
             var expense = await _expenseRepo.UpdateExpenseAsync(id, expenseDto, appUser);
@@ -118,10 +114,11 @@ namespace c__api.Controllers
            
             return Ok(expense.ExpenseToDto());
         }
+
         [HttpDelete("{id:int}")]
         public async Task<IActionResult> DeleteExpense([FromRoute] int id)
         {
-            var appUser = await User.GetAppUserAsync(_userManager);
+            var appUser = HttpContext.Items["User"] as AppUser;
             if (appUser == null)
             {
                 return BadRequest("User Doesnt exsist");

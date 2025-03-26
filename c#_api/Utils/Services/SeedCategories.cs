@@ -36,7 +36,6 @@ namespace c__api.Utils.Services
                 var categories = categoryNames.Select(name => new CategoryModel
                 {
                     CategoryName = name,
-                    IsDefault = true,
                 }).ToList();
 
                 await context.Categories.AddRangeAsync(categories);

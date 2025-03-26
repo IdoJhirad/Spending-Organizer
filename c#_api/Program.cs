@@ -99,15 +99,15 @@ builder.Services.AddScoped<ICategoryRepository, CategoryRepo>();
 
 var app = builder.Build();
 
-//seed the defult categories to the db
-using (var scope = app.Services.CreateScope())
-{
-    var services = scope.ServiceProvider;
-    var context = services.GetRequiredService<ApplicationDBContext>();
-    var configuration = services.GetRequiredService<IConfiguration>();
-    var logger = services.GetRequiredService<ILogger<Program>>();
-    await SeedCategories.InitializeCategory(context, configuration, logger);
-}
+////seed the defult categories to the db
+//using (var scope = app.Services.CreateScope())
+//{
+//    var services = scope.ServiceProvider;
+//    var context = services.GetRequiredService<ApplicationDBContext>();
+//    var configuration = services.GetRequiredService<IConfiguration>();
+//    var logger = services.GetRequiredService<ILogger<Program>>();
+//    await SeedCategories.InitializeCategory(context, configuration, logger);
+//}
 
 
 

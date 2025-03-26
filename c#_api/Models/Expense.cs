@@ -21,6 +21,6 @@ namespace c__api.Models
         public AppUser? AppUser { get; set; }
 
         public int? CategoryModelId { get; set; }
-        public CategoryModel Category { get; set; } = default!;
+        public CategoryModel? Category { get; set; }
     }
 }

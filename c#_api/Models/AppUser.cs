@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Identity;
 
 namespace c__api.Models
 {
@@ -6,6 +8,10 @@ namespace c__api.Models
     {
         public string? Name { get; set; }
         public List<Expense> Expenses { get; set; } = new List<Expense>();
-        public List<UserCategory> UserCategories { get; set; } = new List<UserCategory>();
+
+        [Column(TypeName = "decimal(15,2)")]
+        [DataType(DataType.Currency)]
+        public decimal Balance { get; set; } = 0m;
+        public List<CategoryModel> Categories { get; set; } = new List<CategoryModel>();
     }
 }

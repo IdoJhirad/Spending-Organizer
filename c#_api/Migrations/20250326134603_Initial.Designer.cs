@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using c__api.Data;
 
@@ -11,9 +12,11 @@ using c__api.Data;
 namespace c__api.Migrations
 {
     [DbContext(typeof(ApplicationDBContext))]
-    partial class ApplicationDBContextModelSnapshot : ModelSnapshot
+    [Migration("20250326134603_Initial")]
+    partial class Initial
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -51,13 +54,13 @@ namespace c__api.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "287bc4de-90f6-48d3-92f9-921052151926",
+                            Id = "5b4a557c-8d3b-4060-88ce-bba440ea4453",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "902d70f2-41ce-44e8-94b4-ede35d4ba66e",
+                            Id = "144fa4db-ffd9-4da8-aaf6-3ebc65427912",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -366,8 +369,7 @@ namespace c__api.Migrations
 
                     b.HasOne("c__api.Models.CategoryModel", "Category")
                         .WithMany()
-                        .HasForeignKey("CategoryModelId")
-                        .OnDelete(DeleteBehavior.SetNull);
+                        .HasForeignKey("CategoryModelId");
 
                     b.Navigation("AppUser");
 

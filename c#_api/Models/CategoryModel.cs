@@ -7,8 +7,9 @@ namespace c__api.Models
     {
         public int Id { get; set; }
         public string CategoryName { get; set; } = string.Empty;
-        public bool IsDefault { get; set; } = false;
-        public List<UserCategory> UserCategories { get; set; } = new List<UserCategory>();
 
+        public string? Icon { get; set; }
+        public string? AppUserId { get; set; }
+        public AppUser? AppUser { get; set; }
     }
 }

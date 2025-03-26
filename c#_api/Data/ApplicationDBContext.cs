@@ -15,25 +15,16 @@ namespace c__api.Data
         }
         public DbSet<Expense> Expense { get; set; }
         public DbSet<CategoryModel> Categories { get; set; }
-        public DbSet<UserCategory> UserCategories { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            //forgin key of userCategory
-            modelBuilder.Entity<UserCategory>(x => x.HasKey(p => new { p.AppUserId, p.CategoryModelId }));
 
-            modelBuilder.Entity<UserCategory>()
-                .HasOne(u => u.AppUser)
-                .WithMany(u => u.UserCategories)
-                .HasForeignKey(p => p.AppUserId);
-
-            modelBuilder.Entity<UserCategory>()
-                .HasOne(u => u.CategoryModel)
-                .WithMany(u => u.UserCategories)
-                .HasForeignKey(p => p.CategoryModelId);
-
-
+            modelBuilder.Entity<Expense>()
+                .HasOne(e => e.Category)
+                .WithMany()
+                .HasForeignKey(e => e.CategoryModelId)
+                .OnDelete(DeleteBehavior.SetNull);
 
             //rolls definenition user and admin
             List<IdentityRole> roles = new List<IdentityRole>
@@ -52,12 +43,6 @@ namespace c__api.Data
             //put the rols in the model 
             modelBuilder.Entity<IdentityRole>().HasData(roles);
 
-
-
-
-            //modelBuilder.Entity<CategoryModel>()
-            //.HasIndex(c => c.CategoryName)
-            //.IsUnique();
         }
     }
 }

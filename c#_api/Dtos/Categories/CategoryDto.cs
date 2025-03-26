@@ -4,6 +4,13 @@
     {
         public int Id { get; set; }
         public string CategoryName { get; set; } = string.Empty;
-        public bool IsDefault { get; set; } = false;
+        public string? Icon { get; set; }
+        public string IconName
+        {
+            get
+            {
+                return string.IsNullOrEmpty(Icon) ? CategoryName : Icon + " " + CategoryName;
+            }
+        }
     }
 }

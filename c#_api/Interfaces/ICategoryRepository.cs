@@ -1,16 +1,18 @@
-﻿using c__api.Models;
+﻿using c__api.Dtos.Categories;
+using c__api.Models;
 
 namespace c__api.Interfaces
 {
     public interface ICategoryRepository
     {
-        Task<List<CategoryModel>> GetAllDefaultCategoriesAsync();
-        Task<CategoryModel?> GetDefaultCategoryByIdAsync(int id);
-        Task<CategoryModel?> GetCategoryByNameAsync(string name);
-        Task<bool> IsCategoryExistsAsync(int id);
+     
 
-        Task<List<CategoryModel>> GetDefaultAndUserCategoryAsync(AppUser user);
+        Task<bool> IsCategoryExistsAsync(int id, AppUser appUser);
+
+        Task<List<CategoryModel>> GetUserCategoriesAsync(AppUser user);
         Task<CategoryModel> CreateCategoryAsync(CategoryModel model);
-        Task<UserCategory> CreateUserCategoryAsync(UserCategory userCategory);
+        Task<CategoryModel?> GetUserCategoryByIdAsync(int id, AppUser appUser);
+        Task<CategoryModel?> DeleteAsync(int expensId, AppUser user);
+        Task<CategoryModel?> UpdateCategoryAsync(int expensId, UpdateCategoryDto updateDto,AppUser user);
     }
 }

@@ -12,8 +12,8 @@ using c__api.Data;
 namespace c__api.Migrations
 {
     [DbContext(typeof(ApplicationDBContext))]
-    [Migration("20250317123505_Init")]
-    partial class Init
+    [Migration("20250326141632_SetNull")]
+    partial class SetNull
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -54,13 +54,13 @@ namespace c__api.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "82868a3d-e358-4abf-b2c4-4666f587cb7c",
+                            Id = "83148134-2279-4b53-a725-d3c87937ee19",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "6b205f78-cf3b-45e3-b9ce-45a297ebb0ca",
+                            Id = "e60ca6ac-186e-43ab-a1c0-fb28225985ff",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -180,6 +180,9 @@ namespace c__api.Migrations
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
 
+                    b.Property<decimal>("Balance")
+                        .HasColumnType("decimal(15,2)");
+
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
@@ -248,14 +251,19 @@ namespace c__api.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("AppUserId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<string>("CategoryName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("IsDefault")
-                        .HasColumnType("bit");
+                    b.Property<string>("Icon")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("AppUserId");
 
                     b.ToTable("Categories");
                 });
@@ -291,21 +299,6 @@ namespace c__api.Migrations
                     b.HasIndex("CategoryModelId");
 
                     b.ToTable("Expenses");
-                });
-
-            modelBuilder.Entity("c__api.Models.UserCategory", b =>
-                {
-                    b.Property<string>("AppUserId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("CategoryModelId")
-                        .HasColumnType("int");
-
-                    b.HasKey("AppUserId", "CategoryModelId");
-
-                    b.HasIndex("CategoryModelId");
-
-                    b.ToTable("UsersCategories");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -359,6 +352,15 @@ namespace c__api.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("c__api.Models.CategoryModel", b =>
+                {
+                    b.HasOne("c__api.Models.AppUser", "AppUser")
+                        .WithMany("Categories")
+                        .HasForeignKey("AppUserId");
+
+                    b.Navigation("AppUser");
+                });
+
             modelBuilder.Entity("c__api.Models.Expense", b =>
                 {
                     b.HasOne("c__api.Models.AppUser", "AppUser")
@@ -367,42 +369,19 @@ namespace c__api.Migrations
 
                     b.HasOne("c__api.Models.CategoryModel", "Category")
                         .WithMany()
-                        .HasForeignKey("CategoryModelId");
+                        .HasForeignKey("CategoryModelId")
+                        .OnDelete(DeleteBehavior.SetNull);
 
                     b.Navigation("AppUser");
 
                     b.Navigation("Category");
                 });
 
-            modelBuilder.Entity("c__api.Models.UserCategory", b =>
-                {
-                    b.HasOne("c__api.Models.AppUser", "AppUser")
-                        .WithMany("UserCategories")
-                        .HasForeignKey("AppUserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("c__api.Models.CategoryModel", "CategoryModel")
-                        .WithMany("UserCategories")
-                        .HasForeignKey("CategoryModelId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("AppUser");
-
-                    b.Navigation("CategoryModel");
-                });
-
             modelBuilder.Entity("c__api.Models.AppUser", b =>
                 {
+                    b.Navigation("Categories");
+
                     b.Navigation("Expenses");
-
-                    b.Navigation("UserCategories");
-                });
-
-            modelBuilder.Entity("c__api.Models.CategoryModel", b =>
-                {
-                    b.Navigation("UserCategories");
                 });
 #pragma warning restore 612, 618
         }
