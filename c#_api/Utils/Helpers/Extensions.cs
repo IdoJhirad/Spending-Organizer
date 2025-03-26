@@ -1,4 +1,7 @@
 ﻿using System.Linq.Expressions;
+using System.Security.Claims;
+using c__api.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace c__api.Utils.Helpers
 {
@@ -14,5 +17,17 @@ namespace c__api.Utils.Helpers
         {
             return condition ? source.Where(filter) : source;
         }
+        public static async Task<AppUser?> GetAppUserAsync(this ClaimsPrincipal user, UserManager<AppUser> userManager)
+        {
+            var email = user.FindFirstValue(ClaimTypes.Email);
+            if (string.IsNullOrWhiteSpace(email))
+            {       
+                return null;
+            }
+            var appUser = await userManager.FindByNameAsync(email);
+            return appUser;
+        }
+
+
     }
 }

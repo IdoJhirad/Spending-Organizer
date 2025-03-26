@@ -6,10 +6,10 @@ namespace c__api.Interfaces
 {
     public interface IExpenseRepository
     {
-        public Task<List<Expense>> GetAllExpensesAsync(QueryObject query);
-        public Task<Expense?> GetExpenseByIdAsync(int id);
+        public Task<List<Expense>> GetAllExpensesAsync(QueryObject query, AppUser user);
+        public Task<Expense?> GetExpenseByIdAsync(int expensId, AppUser user);
         public Task<Expense> CreateAsync(Expense expense);
-        public Task<Expense?> UpdateExpenseAsync(int id, UpdateExpenseDto expenseDto);
-        public Task<Expense?> DeleteAsync(int id);
+        public Task<Expense?> UpdateExpenseAsync(int expensId, UpdateExpenseDto expenseDto, AppUser user);
+        public Task<Expense?> DeleteAsync(int expensId, AppUser user);
     }
 }

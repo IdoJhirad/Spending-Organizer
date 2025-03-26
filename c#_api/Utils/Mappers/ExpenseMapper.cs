@@ -6,13 +6,14 @@ namespace c__api.Utils.Mappers
 {
     public static class ExpenseMapper
     {
-        public static Expense DtoToExpense(this CreateExpenseDto expenseDto)
+        public static Expense DtoToExpense(this CreateExpenseDto expenseDto, AppUser user)
         {
             return new Expense
             {
                 Amount = expenseDto.Amount,
                 Description = expenseDto.Description,
                 CategoryModelId = expenseDto.CategoryId,
+                AppUserId = user.Id,
             };
         }
         public static ExpenseDto ExpenseToDto(this Expense expense)

@@ -18,6 +18,7 @@ namespace c__api.Utils.Mappers
             {
                 Id = model.Id,
                 CategoryName = model.CategoryName,
+                IsDefault = model.IsDefault,
             };
         }
 

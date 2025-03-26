@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace c__api.Models
 {
     // TODO -- ADD TYPE!!
+    [Table("Expenses")]
     public class Expense
     {
         public int Id { get; set; }
@@ -16,8 +17,8 @@ namespace c__api.Models
         public string Description { get; set; } = string.Empty;
 
 
-        //public string UserId { get; set; }
-        //public ApplicationUser User { get; set; }
+        public string? AppUserId { get; set; }
+        public AppUser? AppUser { get; set; }
 
         public int? CategoryModelId { get; set; }
         public CategoryModel Category { get; set; } = default!;

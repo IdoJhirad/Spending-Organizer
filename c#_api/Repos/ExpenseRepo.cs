@@ -15,30 +15,15 @@ namespace c__api.Repos
             _context = context;
         }
 
-        public async Task<List<Expense>> GetAllExpensesAsync(QueryObject query)
+        public async Task<List<Expense>> GetAllExpensesAsync(QueryObject query, AppUser user)
         {
-            var expenses =  _context.Expense.Include(c => c.Category).AsQueryable();
+            var expenses =  _context.Expense.Where(e => e.AppUserId == user.Id).Include(c => c.Category).AsQueryable();
             //with exstention where if
             expenses = expenses.WhereIf(query.CategoryId.HasValue && query.CategoryId.Value >= 1, e => e.CategoryModelId == query.CategoryId.Value);
 
             expenses = expenses.WhereIf(query.FromDate.HasValue, e => e.Date >= query.FromDate.Value)
                 .WhereIf(query.ToDate.HasValue, e => e.Date <= query.ToDate.Value);
-
-
-
-            //if (query.CategoryId.HasValue && query.CategoryId.Value >= 1)
-            //{
-            //    expenses = expenses.Where(e => e.CategoryModelId == query.CategoryId.Value);
-            //}
-
-            //if (query.FromDate.HasValue) 
-            //{
-            //    expenses = expenses.Where(e => e.Date >= query.FromDate.Value);
-            //}
-            //if (query.ToDate.HasValue) 
-            //{
-            //    expenses = expenses.Where(e => e.Date <= query.ToDate.Value);
-            //}
+  
             if (!string.IsNullOrWhiteSpace(query.SortBy))
             {
                 if (query.SortBy.Equals("Amount", StringComparison.OrdinalIgnoreCase))
@@ -53,14 +38,14 @@ namespace c__api.Repos
             return await expenses.ToListAsync();           
         }
    
-        public async Task<Expense?> GetExpenseByIdAsync(int id)
+        public async Task<Expense?> GetExpenseByIdAsync(int expensId, AppUser user)
         {
-            return await _context.Expense.Include(e => e.Category).FirstOrDefaultAsync(e => e.Id == id);
+            return await _context.Expense.Include(e => e.Category).FirstOrDefaultAsync(e => e.Id == expensId && e.AppUserId == user.Id);
         }
 
-        public async Task<Expense?> UpdateExpenseAsync(int id, UpdateExpenseDto expenseDto)
+        public async Task<Expense?> UpdateExpenseAsync(int expensId, UpdateExpenseDto expenseDto, AppUser user)
         {
-            var expense = await _context.Expense.Include(e => e.Category).FirstOrDefaultAsync(e => e.Id == id);
+            var expense = await _context.Expense.Include(e => e.Category).FirstOrDefaultAsync(e => e.Id == expensId && e.AppUserId == user.Id);
             if (expense == null)
             {
                 return null;
@@ -82,9 +67,9 @@ namespace c__api.Repos
             return expense;
         }
 
-        public async Task<Expense?> DeleteAsync(int id)
+        public async Task<Expense?> DeleteAsync(int expensId, AppUser user)
         {
-            var expense = await _context.Expense.FirstOrDefaultAsync(e => e.Id == id);
+            var expense = await _context.Expense.FirstOrDefaultAsync(e => e.Id == expensId && e.AppUserId == user.Id);
             if (expense == null)
             {
                 return null;
