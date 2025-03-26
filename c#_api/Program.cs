@@ -1,5 +1,6 @@
 using c__api.Data;
 using c__api.Interfaces;
+using c__api.Middleware;
 using c__api.Models;
 using c__api.Repos;
 using c__api.Utils.Services;
@@ -122,6 +123,16 @@ app.UseHttpsRedirection();
 
 app.UseAuthentication();
 app.UseAuthorization();
+
+//Apply Middleware Conditionally (only for /api/category and /api/expense routes)
+app.UseWhen(
+    context => context.Request.Path.StartsWithSegments("/api/category") ||
+               context.Request.Path.StartsWithSegments("/api/expense"),
+    builder => builder.UseAuthMiddleware()
+);
+
+
+
 
 app.MapControllers();
 

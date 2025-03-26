@@ -31,12 +31,20 @@ namespace c__api.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAll([FromQuery] QueryObject query)
         {
-
-            var appUser = await User.GetAppUserAsync(_userManager);
+            _logger.LogInformation("entered to get all expenss");
+            var appUser = HttpContext.Items["User"] as AppUser;
             if (appUser == null)
             {
                 return BadRequest("User Doesnt exsist");
             }
+            _logger.LogInformation($"get all exsepensess for user: {appUser.Email}");
+
+
+            //var appUser = await User.GetAppUserAsync(_userManager);
+            //if (appUser == null)
+            //{
+            //    return BadRequest("User Doesnt exsist");
+            //}
 
             //Todo Add filter by CAtegory by dates by type that i will do
             var expense = await _expenseRepo.GetAllExpensesAsync(query, appUser);
@@ -55,6 +63,7 @@ namespace c__api.Controllers
             {
                 return BadRequest("User Doesnt exsist");
             }
+            _logger.LogInformation($"post expens for user: {appUser.Email}");
             var expense = await _expenseRepo.GetExpenseByIdAsync(id,appUser);
             if(expense == null)
             {
