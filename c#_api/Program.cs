@@ -90,6 +90,17 @@ builder.Services.AddAuthentication(options =>
 });
 
 
+//add cors
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("FrontendDev", policy =>
+    {
+        policy.WithOrigins("http://localhost:5173")
+              .AllowAnyHeader()
+              .AllowAnyMethod();
+    });
+});
+
 //add IExpenseRepository to services
 builder.Services.AddScoped<IExpenseRepository, ExpenseRepo>();
 builder.Services.AddScoped<ICategoryRepository, CategoryRepo>();
@@ -119,6 +130,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseCors("FrontendDev");
 
 app.UseAuthentication();
 app.UseAuthorization();

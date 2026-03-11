@@ -1,23 +1,22 @@
 import React, { useState } from 'react';
 import { Box, TextField, Typography, Button, Link, Paper ,Alert} from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 import '../styles/Auth.css';
 import DynamicForm from "../components/DynamicForm"
 import apiClient from '../utils/axios';
 
 const Register = () => {
-    
-    const [error, setError] = useState(""); 
+    const navigate = useNavigate();
+    const [error, setError] = useState("");
 
     const registerFields = [
         { name: 'name', label: 'Name', type: 'text', placeholder: 'Enter your full name', required: true },
         { name: 'email', label: 'Email', type: 'email', placeholder: 'Enter your email address', required: true },
         { name: 'password', label: 'Password', type: 'password', placeholder: 'Enter your password', required: true },
-        { name: 'phone_number', label: 'Phone Number', type: 'tel', placeholder: 'Enter your phone number', required: true },
       ];
     const handleSubmit = (formData) => {
-        apiClient.post(`/api/v1/auth/register`,formData).then(response => {
-        if(response.status === 201) {
-            //move to login 
+        apiClient.post(`/api/account/register`,formData).then(response => {
+        if(response.status === 200) {
             navigate("/login")
         }
         }).catch(error=> {

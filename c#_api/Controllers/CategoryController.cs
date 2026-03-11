@@ -110,7 +110,9 @@ namespace c__api.Controllers
                              && e.Date >= startOfMonth
                              && e.Date <= now
                              && e.DeletedAt == null)
-                    .SumAsync(e => e.Amount);
+                    .SumAsync(e => (double)e.Amount);
+
+                var spentDecimal = (decimal)spent;
 
                 var userCat = userCategories.FirstOrDefault(uc => uc.CategoryModelId == cat.Id);
 
@@ -119,7 +121,7 @@ namespace c__api.Controllers
                     CategoryId = cat.Id,
                     CategoryName = cat.CategoryName,
                     BudgetLimit = userCat?.BudgetLimit,
-                    Spent = spent
+                    Spent = spentDecimal
                 });
             }
 
