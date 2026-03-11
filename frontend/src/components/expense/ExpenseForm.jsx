@@ -50,7 +50,6 @@ const ExpenseForm = ({ initialData, categories, onSubmit, isLoading }) => {
         name="description"
         value={formData.description}
         onChange={handleChange}
-        required
         sx={{ mb: 2 }}
       />
 

@@ -25,7 +25,9 @@ namespace c__api.Repos
             expenses = expenses.WhereIf(query.CategoryId.HasValue && query.CategoryId.Value >= 1, e => e.CategoryModelId == query.CategoryId.Value);
 
             expenses = expenses.WhereIf(query.FromDate.HasValue, e => e.Date >= query.FromDate!.Value)
-                .WhereIf(query.ToDate.HasValue, e => e.Date <= query.ToDate!.Value);
+                .WhereIf(query.ToDate.HasValue, e => e.Date <= query.ToDate!.Value)
+                .WhereIf(query.MinAmount.HasValue, e => e.Amount >= query.MinAmount!.Value)
+                .WhereIf(query.MaxAmount.HasValue, e => e.Amount <= query.MaxAmount!.Value);
 
             if (!string.IsNullOrWhiteSpace(query.SortBy))
             {
@@ -57,7 +59,9 @@ namespace c__api.Repos
             }
             expense.Amount = expenseDto.Amount;
             expense.Description = expenseDto.Description;
-            expense.CategoryModelId = expenseDto.CategoryId; 
+            expense.CategoryModelId = expenseDto.CategoryId;
+            if (expenseDto.Date.HasValue)
+                expense.Date = expenseDto.Date.Value;
 
             await _context.SaveChangesAsync();
             await _context.Entry(expense).Reference(e => e.Category).LoadAsync();

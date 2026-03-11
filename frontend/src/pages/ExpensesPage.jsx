@@ -15,6 +15,7 @@ import ExpenseCard from '../components/expense/ExpenseCard';
 import ExpenseForm from '../components/expense/ExpenseForm';
 import ExpenseFilters from '../components/expense/ExpenseFilters';
 import expenseService from '../services/expenseService';
+import categoryService from '../services/categoryService';
 
 const ExpensesPage = () => {
   const [expenses, setExpenses] = useState([]);
@@ -53,13 +54,19 @@ const ExpensesPage = () => {
   };
 
   useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const data = await categoryService.getCategories();
+        setCategories(data);
+      } catch (err) {
+        // non-fatal: filters just won't have category options
+      }
+    };
+    fetchCategories();
+  }, []);
+
+  useEffect(() => {
     fetchExpenses();
-    // TODO: Fetch categories
-    // const fetchCategories = async () => {
-    //   const data = await categoryService.getAllCategories();
-    //   setCategories(data);
-    // };
-    // fetchCategories();
   }, [filters]);
 
   const handleFilterChange = (newFilters) => {

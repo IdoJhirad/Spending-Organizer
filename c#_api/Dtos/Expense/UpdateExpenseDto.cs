@@ -13,5 +13,6 @@ namespace c__api.Dtos.Expense
         public string Description { get; set; } = string.Empty;
         public int CategoryId { get; set; } = 1;
 
+        public DateTime? Date { get; set; }
     }
 }

@@ -9,7 +9,7 @@ const BudgetSummary = ({ budgets }) => {
       <Paper elevation={2} sx={{ p: 2, mb: 2 }}>
         <Typography variant="h6" gutterBottom>Budget Status</Typography>
         <Typography color="text.secondary" variant="body2">
-          No budgets set. Use PUT /api/category/&#123;id&#125;/budget to set a budget for a category.
+          No budgets set yet. Click "Set Budget" to define a monthly limit for a category.
         </Typography>
       </Paper>
     );

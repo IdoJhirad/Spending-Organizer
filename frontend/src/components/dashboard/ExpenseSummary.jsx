@@ -11,7 +11,7 @@ const ExpenseSummary = ({ expenses, categories }) => {
   // Calculate expenses by category
   const expensesByCategory = categories.map(category => {
     const amount = expenses
-      .filter(exp => exp.categoryId === category.id)
+      .filter(exp => exp.category?.id === category.id)
       .reduce((sum, exp) => sum + exp.amount, 0);
     return {
       name: category.categoryName,

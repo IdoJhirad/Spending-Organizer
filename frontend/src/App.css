@@ -10,4 +10,21 @@
 .main-content {
   flex: 1;
   padding: var(--spacing-medium);
+  padding-top: 96px; /* 80px fixed header + 16px breathing room */
+}
+
+/* Dashboard month slide animations */
+@keyframes slideInFromRight {
+  from { transform: translateX(60px); opacity: 0; }
+  to   { transform: translateX(0);    opacity: 1; }
+}
+@keyframes slideInFromLeft {
+  from { transform: translateX(-60px); opacity: 0; }
+  to   { transform: translateX(0);     opacity: 1; }
+}
+.slide-from-right {
+  animation: slideInFromRight 0.28s ease-out;
+}
+.slide-from-left {
+  animation: slideInFromLeft 0.28s ease-out;
 }

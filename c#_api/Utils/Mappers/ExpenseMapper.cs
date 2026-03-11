@@ -14,6 +14,7 @@ namespace c__api.Utils.Mappers
                 Description = expenseDto.Description,
                 CategoryModelId = expenseDto.CategoryId,
                 AppUserId = user.Id,
+                Date = expenseDto.Date ?? DateTime.Now,
             };
         }
         public static ExpenseDto ExpenseToDto(this Expense expense)

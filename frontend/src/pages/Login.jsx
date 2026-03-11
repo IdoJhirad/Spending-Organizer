@@ -46,9 +46,6 @@ const Login = () => {
         />
                 {error && <Alert severity="error" style={{ marginBottom: "16px" }}>{error}</Alert>}
         <Box className="auth-links-container">
-          <Link href="/forgot-password" variant="body2" className="highlight-link">
-            Forgot Password?
-          </Link>
           <Link href="/register" variant="body2" className="highlight-link">
             Create an Account
           </Link>
