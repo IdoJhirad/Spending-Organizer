@@ -36,8 +36,8 @@ const ExpensesPage = () => {
     try {
       setIsLoading(true);
       let query = '?';
-      if (filters.startDate) query += `&startDate=${filters.startDate}`;
-      if (filters.endDate) query += `&endDate=${filters.endDate}`;
+      if (filters.startDate) query += `&fromDate=${filters.startDate}`;
+      if (filters.endDate) query += `&toDate=${filters.endDate}`;
       if (filters.categoryId) query += `&categoryId=${filters.categoryId}`;
       if (filters.minAmount) query += `&minAmount=${filters.minAmount}`;
       if (filters.maxAmount) query += `&maxAmount=${filters.maxAmount}`;

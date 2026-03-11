@@ -1,22 +1,21 @@
 import React, { useState } from 'react';
 import { Box, Typography, Link, Paper ,Alert} from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 import '../styles/Auth.css';
 import DynamicForm from "../components/DynamicForm"
 import apiClient from '../utils/axios';
 
 const Login = () => {
-  const [error, setError] = useState(""); 
+  const navigate = useNavigate();
+  const [error, setError] = useState("");
   const handleSubmit =(formData) => {
     setError("");
-    apiClient.post(`/api/v1/auth/login`,formData).then(response => {
-      if(response.status === 201) {
+    apiClient.post(`/api/account/login`,formData).then(response => {
+      if(response.status === 200) {
 
         sessionStorage.setItem('name',response.data.name);
-        // Save the token from the response
-        const token = response.headers['authorization'].replace('Bearer ', '');
-        sessionStorage.setItem('token', token); 
-        //move to dahsboard 
-        navigate("/dahsboard")
+        sessionStorage.setItem('token', response.data.token);
+        navigate("/dashboard")
       }
     }).catch(error=> {
       if (error.response && error.response.data && error.response.data.message) {

@@ -65,7 +65,26 @@ namespace c__api.Repos
 
         public async Task<bool> IsCategoryExistsAsync(int id)
         {
-            return await _context.Categories.AnyAsync((c => c.Id == id &&  c.IsDefault == true));
+            return await _context.Categories.AnyAsync(c => c.Id == id);
+        }
+
+        public async Task<UserCategory?> GetUserCategoryAsync(string userId, int categoryId)
+        {
+            return await _context.UserCategories
+                .FirstOrDefaultAsync(uc => uc.AppUserId == userId && uc.CategoryModelId == categoryId);
+        }
+
+        public async Task<List<UserCategory>> GetUserCategoriesWithBudgetAsync(string userId)
+        {
+            return await _context.UserCategories
+                .Include(uc => uc.CategoryModel)
+                .Where(uc => uc.AppUserId == userId)
+                .ToListAsync();
+        }
+
+        public async Task SaveChangesAsync()
+        {
+            await _context.SaveChangesAsync();
         }
 
     }

@@ -56,7 +56,7 @@ builder.Services.AddControllers().AddNewtonsoftJson(options =>
 //add db context
 builder.Services.AddDbContext<ApplicationDBContext>(option =>
     {
-        option.UseSqlServer(builder.Configuration.GetConnectionString("DB_Connection"));
+        option.UseSqlite(builder.Configuration.GetConnectionString("DB_Connection"));
     }
 );
 //add identity keep the defualt password setings lenght 6 upper lower spical digit

@@ -22,5 +22,7 @@ namespace c__api.Models
 
         public int? CategoryModelId { get; set; }
         public CategoryModel Category { get; set; } = default!;
+
+        public DateTime? DeletedAt { get; set; }
     }
 }

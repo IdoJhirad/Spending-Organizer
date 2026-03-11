@@ -2,11 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { Grid, Container, Typography, Box, CircularProgress } from '@mui/material';
 import ExpenseSummary from '../components/dashboard/ExpenseSummary';
 import RecentExpenses from '../components/dashboard/RecentExpenses';
+import BudgetSummary from '../components/BudgetSummary';
 import expenseService from '../services/expenseService';
+import apiClient from '../utils/axios';
 
 const DashboardPage = () => {
   const [expenses, setExpenses] = useState([]);
   const [categories, setCategories] = useState([]);
+  const [budgets, setBudgets] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -19,13 +22,12 @@ const DashboardPage = () => {
         startDate.setDate(1);
         const endDate = new Date();
         
-        const query = `?startDate=${startDate.toISOString()}&endDate=${endDate.toISOString()}`;
+        const query = `?fromDate=${startDate.toISOString()}&toDate=${endDate.toISOString()}`;
         const expensesData = await expenseService.getAllExpenses(query);
         setExpenses(expensesData);
-        
-        // TODO: Add category service and fetch categories
-        // const categoriesData = await categoryService.getAllCategories();
-        // setCategories(categoriesData);
+
+        const budgetData = await apiClient.get('/api/category/budgets');
+        setBudgets(budgetData.data);
       } catch (err) {
         setError(err.message);
       } finally {
@@ -59,6 +61,9 @@ const DashboardPage = () => {
       </Typography>
       
       <Grid container spacing={3}>
+        <Grid item xs={12}>
+          <BudgetSummary budgets={budgets} />
+        </Grid>
         <Grid item xs={12} md={8}>
           <ExpenseSummary expenses={expenses} categories={categories} />
         </Grid>
