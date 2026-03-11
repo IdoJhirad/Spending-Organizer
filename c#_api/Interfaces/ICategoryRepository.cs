@@ -12,5 +12,8 @@ namespace c__api.Interfaces
         Task<List<CategoryModel>> GetDefaultAndUserCategoryAsync(AppUser user);
         Task<CategoryModel> CreateCategoryAsync(CategoryModel model);
         Task<UserCategory> CreateUserCategoryAsync(UserCategory userCategory);
+        Task<UserCategory?> GetUserCategoryAsync(string userId, int categoryId);
+        Task<List<UserCategory>> GetUserCategoriesWithBudgetAsync(string userId);
+        Task SaveChangesAsync();
     }
 }

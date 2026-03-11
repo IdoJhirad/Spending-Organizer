@@ -7,8 +7,9 @@ namespace c__api.Models
     {
         public string AppUserId { get; set; }
         public int CategoryModelId {  get; set; }
+        public decimal? BudgetLimit { get; set; }
         public AppUser AppUser { get; set; }
-        public CategoryModel CategoryModel { get; set; } 
+        public CategoryModel CategoryModel { get; set; }
 
     }
 }
